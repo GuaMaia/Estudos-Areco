@@ -1,0 +1,59 @@
+unit UJsonDTO;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, System.JSON, System.Generics.Collections,System.StrUtils;
+
+type
+
+  TJsonDTO = class
+  private
+    FJSON: TJSONObject;
+  public
+    constructor Create(const jsonString: string);
+    destructor Destroy; override;
+
+    function ObterCodigo: string;
+    function ObterNomeProduto: string;
+    function ObterUnidade: string;
+    function ObterPreco: string;
+  end;
+
+implementation
+
+constructor TJsonDTO.Create(const jsonString: string);
+begin
+  inherited Create;
+  FJSON := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(jsonString), 0) as TJSONObject;
+end;
+
+destructor TJsonDTO.Destroy;
+begin
+  FJSON.DisposeOf;
+  inherited;
+end;
+
+function TJsonDTO.ObterCodigo: string;
+begin
+  Result := FJSON.GetValue('codigo').ToString;
+end;
+
+function TJsonDTO.ObterNomeProduto: string;
+begin
+  Result := AnsiReplaceStr(FJSON.GetValue('nomeCliente').ToString, '"', '');
+end;
+
+function TJsonDTO.ObterPreco: string;
+begin
+  Result := AnsiReplaceStr(FJSON.GetValue('cpf').ToString, '"', '');
+end;
+
+function TJsonDTO.ObterUnidade: string;
+begin
+  Result := AnsiReplaceStr(FJSON.GetValue('cpf').ToString, '"', '');
+end;
+
+
+
+end.

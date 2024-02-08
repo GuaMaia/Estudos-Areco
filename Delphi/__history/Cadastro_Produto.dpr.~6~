@@ -1,0 +1,17 @@
+program Cadastro_Produto;
+
+uses
+  Vcl.Forms,
+  UFPrincipal in 'UFPrincipal.pas' {Form1},
+  UFrame_Gerenciador in 'Frame\UFrame_Gerenciador.pas' {FFrame_Gerenciador: TFrame},
+  UCadProduto in 'UCadProduto.pas' {FCadProduto};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFCadProduto, FCadProduto);
+  Application.Run;
+end.

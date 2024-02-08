@@ -1,0 +1,206 @@
+object FGerProduto: TFGerProduto
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  BorderStyle = bsSingle
+  Caption = 'Cadastro de Produto'
+  ClientHeight = 532
+  ClientWidth = 754
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  KeyPreview = True
+  Position = poDesktopCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  TextHeight = 15
+  inline FFrame_Gerenciador1: TFFrame_Gerenciador
+    Left = 0
+    Top = 0
+    Width = 754
+    Height = 53
+    Align = alTop
+    TabOrder = 0
+    ExplicitWidth = 750
+    inherited Panel1: TPanel
+      Width = 754
+      ExplicitWidth = 750
+      inherited btExcluir: TSpeedButton
+        OnClick = FFrame_Gerenciador1btExcluirClick
+      end
+      inherited btSair: TSpeedButton
+        Left = 697
+        Top = -2
+        OnClick = FFrame_Gerenciador1btSairClick
+        ExplicitLeft = 571
+        ExplicitTop = -2
+      end
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 53
+    Width = 754
+    Height = 62
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 1
+    ExplicitWidth = 750
+    object Label1: TLabel
+      Left = 14
+      Top = 8
+      Width = 91
+      Height = 15
+      Caption = 'Valor '#224' pesquisar:'
+    end
+    object btLimparFiltro: TSpeedButton
+      Left = 493
+      Top = 27
+      Width = 41
+      Height = 21
+      Hint = 'Limpar Filtro'
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000001000000010000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000008080526241732
+        2E1C2D29151E1B0A0B0A03000000000000000000000000000000000000000000
+        000000020200383423736E63726F7C605E7754516A48425039322A201C080706
+        00000000000000000000000000000000040300393527555B884256C0314BCA26
+        3FD02336CD2534BF3138A531336E1D191A060500000000000000000000000000
+        201D18354EA23967E74170EE335CE12341C0172FAE1D30BA1625C1222FC53138
+        A4131128000000000000000000050200233E89518AFE5F95FB2C52B709164800
+        03192E2B25575A811E34C40E22C11D2CC92E38AA040415000000000000010B25
+        4984EF7EB7FF3662BD00010E0000002920044D51643251C6274DDD1A38D30D23
+        C1293DD319206C00000000000009235F79B4FF76B0FD061B470200001F180436
+        48763668E53D73F6244FDB02115A0F25951F3DDF2436A8000006000000152E70
+        92C2FF6DA1F201091F0C0702294D904F8EFC5898FF295CD8020E400601002C41
+        8D214BEA2541BC0001110000000A164992B8FF88B4F90E2665274D9C6FAFFF6C
+        B0FF255BC4000525000000322C1E3B5EC02C62F61B3DB4000005000000000012
+        617BCEB2D3FF6692EE84B4FF77AAF62B519A090A0D110A00211908384E7F3C79
+        F53674FF0922750000000000000000000F17498FA8F1BDDBFF92B8F92D51B619
+        1E3625262D27324934589B4D90F84C97FF174DCA000213000000000000000000
+        000000141A527A8ED8A7C5FF8AADF66C94E6628EDF669BF96FADFF5699FF1B52
+        C400082700000000000000000000000000000000000000001C2D387A6074BB73
+        8EDB6C90E5567CD52D54B508216700000B000000000000000000000000000000
+        00000000000000000000000000000400001B0000230000160000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000}
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = btLimparFiltroClick
+    end
+    object edPes: TEdit
+      Left = 20
+      Top = 27
+      Width = 465
+      Height = 23
+      CharCase = ecUpperCase
+      TabOrder = 0
+      OnChange = edPesChange
+    end
+  end
+  object dbProduto: TDBGrid
+    Left = 0
+    Top = 115
+    Width = 754
+    Height = 417
+    Align = alClient
+    DataSource = DsProduto
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ParentFont = False
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Segoe UI'
+    TitleFont.Style = []
+    OnDrawColumnCell = dbProdutoDrawColumnCell
+    OnTitleClick = dbProdutoTitleClick
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'id'
+        Title.Alignment = taRightJustify
+        Title.Caption = 'C'#243'digo'
+        Width = 54
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'descricao'
+        Title.Caption = 'Descri'#231#227'o'
+        Width = 430
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'un'
+        Title.Caption = 'Un.'
+        Width = 35
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'preco'
+        Title.Alignment = taRightJustify
+        Title.Caption = 'Pre'#231'o'
+        Width = 165
+        Visible = True
+      end>
+  end
+  object cdsProduto: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 392
+    Top = 8
+    object cdsProdutoid: TIntegerField
+      FieldName = 'id'
+    end
+    object cdsProdutodescricao: TStringField
+      FieldName = 'descricao'
+      Size = 100
+    end
+    object cdsProdutoun: TStringField
+      FieldName = 'un'
+      Size = 2
+    end
+    object cdsProdutopreco: TCurrencyField
+      FieldName = 'preco'
+      DisplayFormat = '###,##0.00'
+    end
+  end
+  object DsProduto: TDataSource
+    DataSet = cdsProduto
+    Left = 424
+    Top = 8
+  end
+  object rqCadastro: TRESTRequest
+    Client = rcCadastro
+    Params = <>
+    Response = rpCadastro
+    SynchronizedEvents = False
+    Left = 472
+    Top = 24
+  end
+  object rcCadastro: TRESTClient
+    Params = <>
+    SynchronizedEvents = False
+    Left = 512
+    Top = 24
+  end
+  object rpCadastro: TRESTResponse
+    Left = 552
+    Top = 24
+  end
+end

@@ -1,0 +1,33 @@
+Aplicação para Desenvolvimento
+
+Banco de Dados : MySql
+
+1 - Pasta " Api"
+Programa : IntelliJ IDEA Community Edition 2023.3.1
+Linguagem : Java Scripts
+Build System : Maven
+Java : Jdk : 21 Oracle
+http://localhost:8080/swagger-ui.html
+
+IMPORTANTE:
+Para gerar a aplicação foi gerado o "JAR" .
+
+Segue abaixo para execução do JAR:
+- abrir o CMD do computador ir na pasta do "target".
+Exemplo : C:\Estudos Delphi\Prova Areco\Api - IntelliJ IDEA\Cadastro_Produto\target
+
+Executar:
+java -jar .\Cadastro_Produto-1.0-SNAPSHOT.jar 
+
+2 - Pasta Delphi 
+Delphi : Alexandria 13.1
+
+No Delphi foi utilizado RestRequest,ResClient e RestResponse para consumir o Api.
+Criado 2 Frame (UFrame_Cadastro e UFrame_Gerenciador) para lógica de ter um projeto
+uniforme, para que não tenha conflitos de botões.
+Criado Oob UJsonDTO para consumir comando Get e Post.
+
+3 Dunit
+Delphi : Alexandria 13.1
+
+Foi criado a calculadora para utilizar o teste unitário.

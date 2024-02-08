@@ -1,0 +1,65 @@
+unit UJsonDTO;
+
+interface
+
+uses
+   System.JSON, System.SysUtils, System.Classes, REST.Response.Adapter, REST.Client;
+
+
+type
+
+  TJsonDTO = class
+  private
+    FID: Integer;
+    FDescricao: string;
+    FUnidade: string;
+    FPreco: Double;
+  public
+    property ID: Integer read FID write FID;
+    property Descricao: string read FDescricao write FDescricao;
+    property Unidade: string read FUnidade write FUnidade;
+    property Preco: Double read FPreco write FPreco;
+  end;
+
+  TJSONReader = class
+  public
+    class function ReadProducts(AResponse: TRESTResponse): TArray<TJsonDTO>;
+  end;
+
+implementation
+
+class function TJSONReader.ReadProducts(AResponse: TRESTResponse): TArray<TJsonDTO>;
+var
+  JSONValue: TJSONValue;
+  JSONArray: TJSONArray;
+  JSONItem: TJSONValue;
+  Produto: TJsonDTO;
+  I: Integer;
+begin
+  JSONValue := TJSONObject.ParseJSONValue(AResponse.Content);
+
+  try
+    if Assigned(JSONValue) and (JSONValue is TJSONArray) then
+    begin
+      JSONArray := TJSONArray(JSONValue);
+      SetLength(Result, JSONArray.Count);
+
+      for I := 0 to JSONArray.Count - 1 do
+      begin
+        JSONItem := JSONArray.Items[I];
+        Produto := TJsonDTO.Create;
+        Produto.ID := JSONItem.GetValue<Integer>('id');
+        Produto.Descricao := JSONItem.GetValue<string>('descricao');
+        Produto.Unidade := JSONItem.GetValue<string>('unidade');
+        Produto.Preco := JSONItem.GetValue<Double>('preco');
+        Result[I] := Produto;
+      end;
+    end
+    else
+      SetLength(Result, 0);
+  finally
+    JSONValue.Free;
+  end;
+end;
+
+end.

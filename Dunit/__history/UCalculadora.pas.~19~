@@ -1,0 +1,150 @@
+unit UCalculadora;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TFCalculadora = class(TForm)
+    edNum1: TEdit;
+    edNum2: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    BtSomar: TButton;
+    BtDividir: TButton;
+    Panel1: TPanel;
+    edTotal: TEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure edNum1KeyPress(Sender: TObject; var Key: Char);
+    procedure BtSomarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure BtDividirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function Somar (Const cNum1,CNum2 : Integer) : Integer;
+    function Dividir (Const cNum1,CNum2 : Integer) : Integer;
+    function ValidarCampos(sOperacao : String) : Boolean;
+  end;
+
+var
+  FCalculadora: TFCalculadora;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFCalculadora.BtDividirClick(Sender: TObject);
+begin
+  if ValidarCampos('D') = False then
+    Abort;
+
+  edTotal.Text := Self.Dividir(StrtoInt(edNum1.Text) , StrtoInt(edNum2.Text)).ToString;
+end;
+
+procedure TFCalculadora.BtSomarClick(Sender: TObject);
+begin
+  if ValidarCampos('') = False then
+    Abort;
+
+  edTotal.Text := Self.Somar(StrtoInt(edNum1.Text) , StrtoInt(edNum2.Text)).ToString;
+end;
+
+function TFCalculadora.Dividir(const cNum1, CNum2: Integer): Integer;
+begin
+  Result :=  cNum1 div CNum2;
+end;
+
+procedure TFCalculadora.edNum1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key in ['0'..'9',','] = false)  then
+    key := #0;
+end;
+
+procedure TFCalculadora.FormCreate(Sender: TObject);
+begin
+  edNum1.Clear;
+  edNum2.Clear;
+  edTotal.Clear;
+end;
+
+procedure TFCalculadora.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #13) and not (ActiveControl is TMemo) then
+  begin
+    Perform(WM_NEXTDLGCTL,0,0);
+  end;
+end;
+
+procedure TFCalculadora.FormShow(Sender: TObject);
+begin
+  edNum1.SetFocus;
+end;
+
+function TFCalculadora.Somar(const cNum1, CNum2: Integer): Integer;
+begin
+  Result :=  cNum1 + CNum2;
+end;
+
+function TFCalculadora.ValidarCampos(sOperacao : String): Boolean;
+begin
+  Result := True;
+
+  if Trim(edNum1.Text) = '' then
+  begin
+     Application.MessageBox('Valor N°1 não pode ser vazio!','Atenção',MB_ICONEXCLAMATION);
+     edNum1.SetFocus;
+     Result := False;
+     Exit;
+  end;
+
+  if StrToInt(edNum1.Text) < 0 then
+  begin
+     Application.MessageBox('Valor N°1 não pode ser menor que zero!','Atenção',MB_ICONEXCLAMATION);
+     edNum2.SetFocus;
+     Result := False;
+     Exit;
+  end;
+
+  if Trim(edNum2.Text) = '' then
+  begin
+     Application.MessageBox('Valor N°2 não pode ser vazio!','Atenção',MB_ICONEXCLAMATION);
+     edNum2.SetFocus;
+     Result := False;
+     Exit;
+  end;
+
+  if StrToInt(edNum2.Text) < 0 then
+  begin
+     Application.MessageBox('Valor N°2 não pode ser menor que zero!','Atenção',MB_ICONEXCLAMATION);
+     edNum2.SetFocus;
+     Result := False;
+     Exit;
+  end;
+
+  if sOperacao = 'D' then
+  begin
+    if StrToInt(edNum1.Text) > StrToInt(edNum2.Text)  then
+    begin
+      Application.MessageBox('Valor N°2 não poder valor zero ou menor que zero!','Atenção',MB_ICONEXCLAMATION);
+      edNum2.SetFocus;
+      Result := False;
+      Exit;
+    end;
+
+    if StrToInt(edNum2.Text) = 0 then
+    begin
+      Application.MessageBox('Valor N°2 não poder valor zero ou menor que zero!','Atenção',MB_ICONEXCLAMATION);
+      edNum2.SetFocus;
+      Result := False;
+      Exit;
+    end;
+  end;
+end;
+
+end.

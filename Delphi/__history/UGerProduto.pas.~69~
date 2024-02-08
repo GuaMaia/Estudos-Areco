@@ -1,0 +1,247 @@
+unit UGerProduto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrame_Gerenciador, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls, Datasnap.DBClient, REST.Types, REST.Client,
+  Data.Bind.Components, Data.Bind.ObjectScope,System.JSON, Vcl.StdCtrls,System.StrUtils,
+  Vcl.Buttons;
+
+type
+  TFGerProduto = class(TForm)
+    FFrame_Gerenciador1: TFFrame_Gerenciador;
+    Panel1: TPanel;
+    dbProduto: TDBGrid;
+    cdsProduto: TClientDataSet;
+    DsProduto: TDataSource;
+    rqCadastro: TRESTRequest;
+    rcCadastro: TRESTClient;
+    rpCadastro: TRESTResponse;
+    cdsProdutoid: TIntegerField;
+    cdsProdutodescricao: TStringField;
+    cdsProdutoun: TStringField;
+    cdsProdutopreco: TCurrencyField;
+    Label1: TLabel;
+    edPes: TEdit;
+    btLimparFiltro: TSpeedButton;
+    rqManu: TRESTRequest;
+    procedure FFrame_Gerenciador1btSairClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure dbProdutoDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure btLimparFiltroClick(Sender: TObject);
+    procedure edPesChange(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure dbProdutoTitleClick(Column: TColumn);
+    procedure FFrame_Gerenciador1btExcluirClick(Sender: TObject);
+    procedure FFrame_Gerenciador1btIncluirClick(Sender: TObject);
+    procedure FFrame_Gerenciador1btAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+    colsel : String;
+  public
+    { Public declarations }
+    Url : String;
+    procedure BuscaApi;
+    procedure BuscaPorProduto;
+  end;
+
+var
+  FGerProduto: TFGerProduto;
+
+implementation
+
+{$R *.dfm}
+
+uses UJsonDTO, UCadProduto;
+
+procedure TFGerProduto.btLimparFiltroClick(Sender: TObject);
+begin
+  edPes.Text := '';
+     cdsProduto.Active;
+     cdsProduto.Filter   := ' UPPER(' + colsel + ') Like ' +UpperCase(QuotedStr('%' + Trim(edpes.Text) + '%'));
+     cdsProduto.Filtered := True;
+end;
+
+procedure TFGerProduto.BuscaApi;
+var
+ lJsonDTO : TJsonDTO;
+ ArrayProduto : TArray<TJsonDTO>;
+begin
+  cdsProduto.EmptyDataSet;
+
+  Url:= 'http://localhost:8080/api/produtos' ;
+  rcCadastro.BaseURL :=  Url;
+
+  Try
+   rqCadastro.Execute;
+  Except
+    on E: Exception do
+    begin
+      Application.MessageBox('Iniciar aplicação do Api!','Atenção',MB_ICONEXCLAMATION);
+      Close;
+    end;
+  End;
+
+  ArrayProduto := TJSONReader.BuscaTodosProdutos(rpCadastro);
+
+  try
+    for lJsonDTO in ArrayProduto do
+    begin
+      cdsProduto.Append;
+      cdsProdutoid.AsInteger :=  lJsonDTO.ID;
+      cdsProdutodescricao.AsString := lJsonDTO.Descricao;
+      cdsProdutoun.AsString := lJsonDTO.Unidade;
+      cdsProdutopreco.AsCurrency :=  lJsonDTO.Preco;
+      cdsProduto.Post;
+    end;
+  finally
+    for lJsonDTO in ArrayProduto do
+      lJsonDTO.Free;
+  end;
+
+  cdsProduto.Last;
+
+end;
+
+procedure TFGerProduto.BuscaPorProduto;
+var
+  Produto: TJsonDTO;
+begin
+  Url:= 'http://localhost:8080/api/produtos/' + cdsProdutoid.AsString;
+  rcCadastro.BaseURL :=  Url;
+  rqCadastro.Execute;
+
+  Produto := TJSONReader.BuscaProduto(rpCadastro);
+  FCadProduto.edId.Text :=  IntToStr(Produto.ID);
+  FCadProduto.edDescricao.Text := Produto.Descricao;
+  FCadProduto.edUn.Text := Produto.Unidade;
+  FCadProduto.edPreco.Text :=  CurrToStr(Produto.Preco);
+  FCadProduto.edPreco.Text := FormatFloat('###,##0.00', Produto.Preco);
+  Produto.Free;
+end;
+
+procedure TFGerProduto.dbProdutoDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if not Odd((dbProduto.DataSource.DataSet as TClientDataSet).RecNo) then
+     begin
+          if not (gdSelected in State) then
+          begin
+               dbProduto.Canvas.Brush.Color := $00CBEAFE;
+               dbProduto.Canvas.FillRect(Rect);
+               dbProduto.DefaultDrawDataCell(Rect,Column.Field,State);
+          end;
+     end;
+
+     dbProduto.Canvas.Font.Color := clBlack;
+
+     if gdSelected in State then
+     begin
+          dbProduto.Canvas.Brush.Color:= $00F3EBD1;
+          dbProduto.Canvas.FillRect(rect);
+     end;
+     dbProduto.DefaultDrawDataCell(Rect,dbProduto.Columns[DataCol].Field, State);
+end;
+
+procedure TFGerProduto.dbProdutoTitleClick(Column: TColumn);
+var
+     x : Integer;
+begin
+  for x := 0 to dbProduto.Columns.Count -1 do
+      dbProduto.Columns[x].Title.Font.Color := clBlack;
+     (dbProduto.DataSource.DataSet as TClientDataSet).IndexFieldNames := Column.FieldName;
+     Column.Title.Font.Color := clRed;
+     colsel:= Column.FieldName;
+end;
+
+procedure TFGerProduto.edPesChange(Sender: TObject);
+begin
+   if Trim(edPes.Text) = '' then
+     begin
+          cdsProduto.Active;
+          cdsProduto.Filter   := ' UPPER(' + colsel + ') Like ' +UpperCase(QuotedStr('%' + Trim(edpes.Text) + '%'));
+          cdsProduto.Filtered := True;
+
+          Exit;
+     end;
+
+     if edpes.Text = '' then
+     begin
+          Application.MessageBox('Digite algo para pesquisar !','Atenção',MB_ICONEXCLAMATION);
+          Exit;
+     end;
+
+     cdsProduto.Active;
+     cdsProduto.Filter   := ' UPPER(' + colsel + ') Like ' +UpperCase(QuotedStr('%' + Trim(edpes.Text) + '%'));
+     cdsProduto.Filtered := True;
+end;
+
+procedure TFGerProduto.FFrame_Gerenciador1btAlterarClick(Sender: TObject);
+begin
+  if cdsProduto.IsEmpty then EXIT;
+
+  Application.CreateForm(TFCadProduto, FCadProduto);
+  BuscaPorProduto;
+  FCadProduto.var_incluse := False;
+  FCadProduto.ShowModal;
+  BuscaApi;
+end;
+
+procedure TFGerProduto.FFrame_Gerenciador1btExcluirClick(Sender: TObject);
+begin
+   if cdsProduto.IsEmpty then Exit;
+
+  if Application.MessageBox('Deseja realmente excluir registro selecionado ?', 'Atenção', mb_YesNo + MB_ICONQUESTION ) = IdYes then
+  begin
+    rcCadastro.BaseURL := 'http://localhost:8080/api/produtos/'+ cdsProdutoid.AsString;
+    rqManu.Method := rmDELETE;
+    rqManu.Execute;
+    BuscaApi;
+  end;
+end;
+
+procedure TFGerProduto.FFrame_Gerenciador1btIncluirClick(Sender: TObject);
+begin
+   Application.CreateForm(TFCadProduto, FCadProduto);
+   FCadProduto.var_incluse := True;
+   FCadProduto.ShowModal;
+   BuscaApi;
+end;
+
+procedure TFGerProduto.FFrame_Gerenciador1btSairClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TFGerProduto.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  cdsProduto.Close;
+end;
+
+procedure TFGerProduto.FormCreate(Sender: TObject);
+begin
+  cdsProduto.CreateDataSet;
+  cdsProduto.Open;
+end;
+
+procedure TFGerProduto.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #13) and not (ActiveControl is TMemo) then
+     begin
+          Perform(WM_NEXTDLGCTL,0,0);
+     end;
+end;
+
+procedure TFGerProduto.FormShow(Sender: TObject);
+begin
+  BuscaApi;
+  dbProduto.ontitleclick(dbProduto.columns[1]);
+  dbProduto.SelectedIndex := 1;
+end;
+
+end.

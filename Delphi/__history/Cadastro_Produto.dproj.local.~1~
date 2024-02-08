@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/02/07 15:26:30.000.486,=C:\Users\GUSTAVO\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/02/07 15:28:38.000.082,C:\Estudos Delphi\Prova Areco\Delphi\Uprincipal.pas=C:\Users\GUSTAVO\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/02/07 15:28:38.000.082,C:\Estudos Delphi\Prova Areco\Delphi\Uprincipal.dfm=C:\Users\GUSTAVO\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2024/02/07 15:28:52.000.379,C:\Estudos Delphi\Prova Areco\Delphi\Cadastro_Produto.dproj=C:\Users\GUSTAVO\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2024/02/07 15:40:43.000.178,=C:\Estudos Delphi\Prova Areco\Delphi\Unit1.pas</Transaction>
+    <Transaction>2024/02/07 15:41:42.000.601,C:\Estudos Delphi\Prova Areco\Delphi\Unit1.pas=C:\Estudos Delphi\Prova Areco\Delphi\UFrame_Gerenciador.pas</Transaction>
+    <Transaction>2024/02/07 15:41:42.000.601,C:\Estudos Delphi\Prova Areco\Delphi\Unit1.dfm=C:\Estudos Delphi\Prova Areco\Delphi\UFrame_Gerenciador.dfm</Transaction>
+    <Transaction>2024/02/07 15:42:56.523,=C:\Estudos Delphi\Prova Areco\Delphi\Unit2.pas</Transaction>
+    <Transaction>2024/02/07 15:43:43.493,C:\Estudos Delphi\Prova Areco\Delphi\UCadProduto.dfm=C:\Estudos Delphi\Prova Areco\Delphi\Unit2.dfm</Transaction>
+    <Transaction>2024/02/07 15:43:43.493,C:\Estudos Delphi\Prova Areco\Delphi\UCadProduto.pas=C:\Estudos Delphi\Prova Areco\Delphi\Unit2.pas</Transaction>
+  </Transactions>
+</BorlandProject>

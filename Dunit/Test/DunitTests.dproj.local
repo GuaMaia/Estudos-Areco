@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2024/02/08 18:16:30.618,=C:\Estudos Delphi\Prova Areco\Dunit\Test\TestUCalculadora.pas</Transaction>
+    <Transaction>2024/02/08 18:16:31.579,=C:\Estudos Delphi\Prova Areco\Dunit\UCalculadora.pas</Transaction>
+    <Transaction>2024/02/08 18:23:28.683,C:\Estudos Delphi\Prova Areco\Dunit\Test\TestUCalculadora.pas=</Transaction>
+    <Transaction>2024/02/08 18:25:24.946,=C:\Estudos Delphi\Prova Areco\Dunit\Test\TestUDunitCalculadora.pas</Transaction>
+    <Transaction>2024/02/08 18:25:58.214,C:\Estudos Delphi\Prova Areco\Dunit\Test\TestUDunitCalculadora.pas=</Transaction>
+    <Transaction>2024/02/08 18:26:53.169,=C:\Estudos Delphi\Prova Areco\Dunit\Test\TestUDunitCalc.pas</Transaction>
+  </Transactions>
+</BorlandProject>

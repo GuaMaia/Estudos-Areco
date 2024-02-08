@@ -1,0 +1,92 @@
+object FCalculadora: TFCalculadora
+  Left = 0
+  Top = 0
+  BorderStyle = bsSingle
+  Caption = 'Teste utilizando DUNIT'
+  ClientHeight = 193
+  ClientWidth = 350
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  KeyPreview = True
+  Position = poDesktopCenter
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  TextHeight = 15
+  object Label1: TLabel
+    Left = 8
+    Top = 7
+    Width = 23
+    Height = 15
+    Caption = 'N'#176' 1'
+  end
+  object Label2: TLabel
+    Left = 8
+    Top = 52
+    Width = 23
+    Height = 15
+    Caption = 'N'#176' 2'
+  end
+  object Label3: TLabel
+    Left = 8
+    Top = 142
+    Width = 52
+    Height = 15
+    Caption = 'Resultado'
+  end
+  object edNum1: TEdit
+    Left = 8
+    Top = 23
+    Width = 121
+    Height = 23
+    NumbersOnly = True
+    TabOrder = 0
+    OnKeyPress = edNum1KeyPress
+  end
+  object edNum2: TEdit
+    Left = 8
+    Top = 70
+    Width = 121
+    Height = 23
+    NumbersOnly = True
+    TabOrder = 1
+    OnKeyPress = edNum1KeyPress
+  end
+  object BtSomar: TButton
+    Left = 16
+    Top = 107
+    Width = 75
+    Height = 25
+    Caption = 'Somar'
+    TabOrder = 2
+    OnClick = BtSomarClick
+  end
+  object BtDividir: TButton
+    Left = 97
+    Top = 107
+    Width = 75
+    Height = 25
+    Caption = 'Dividir'
+    TabOrder = 3
+    OnClick = BtDividirClick
+  end
+  object Panel1: TPanel
+    Left = 8
+    Top = 159
+    Width = 124
+    Height = 23
+    Enabled = False
+    TabOrder = 4
+    object edTotal: TEdit
+      Left = 0
+      Top = 0
+      Width = 123
+      Height = 23
+      TabOrder = 0
+    end
+  end
+end

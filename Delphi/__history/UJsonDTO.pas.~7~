@@ -1,0 +1,51 @@
+unit UJsonDTO;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, System.JSON, System.Generics.Collections,System.StrUtils;
+
+type
+
+  TJsonDTO = class
+  private
+    FJsonList: TObjectList<TJsonDTO>;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure AddJson(const jsonString: string);
+    function GetJsonCount: Integer;
+    function GetJsonDTO(index: Integer): TJsonDTO;
+  end;
+
+implementation
+
+constructor TJsonDTO.Create;
+begin
+  inherited Create;
+  FJsonList := TObjectList<TJsonDTO>.Create;
+end;
+
+destructor TJsonDTO.Destroy;
+begin
+  FJsonList.DisposeOf;
+  inherited;
+end;
+
+procedure TJsonDTO.AddJson(const jsonString: string);
+begin
+  FJsonList.Add(TJsonDTO.Create(jsonString));
+end;
+
+function TJsonDTO.GetJsonCount: Integer;
+begin
+  Result := FJsonList.Count;
+end;
+
+function TJsonDTO.GetJsonDTO(index: Integer): TJsonDTO;
+begin
+  Result := FJsonList[index];
+end;
+
+end.
